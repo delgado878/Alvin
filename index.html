@@ -1,168 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>$EPOCH1970 Presale</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .container {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            max-width: 600px;
-            width: 100%;
-            text-align: center;
-        }
-        h1 {
-            color: #007bff;
-        }
-        p {
-            margin: 10px 0;
-        }
-        button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            margin: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-        input {
-            padding: 10px;
-            margin: 10px 0;
-            width: 200px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        #status {
-            margin-top: 20px;
-            color: #28a745;
-        }
-        #error {
-            margin-top: 20px;
-            color: #dc3545;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>$EPOCH1970 Presale - Works on Phantom Mobile</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#111; color:#fff; margin:0; padding:20px; text-align:center; }
+    .card { background:#1a1a1a; padding:30px; border-radius:16px; max-width:500px; margin:40px auto; box-shadow:0 10px 30px rgba(0,0,0,0.5); }
+    h1 { color:#00ff9d; }
+    button { background:#00ff9d; color:#000; font-weight:bold; border:none; padding:14px 30px; margin:10px; border-radius:50px; cursor:pointer; font-size:18px; }
+    button:disabled { background:#555; cursor:not-allowed; }
+    input { padding:12px; width:80%; max-width:300px; margin:15px; border-radius:8px; border:none; font-size:16px; }
+    #status { margin-top:20px; font-size:18px; }
+    #error { color:#ff6b6b; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>$EPOCH1970 Presale</h1>
-        <p>Join the memecoin inspired by Elon Musk's Unix Epoch easter egg – Verified since January 1970!</p>
-        <p>Presale: Send SOL to get tokens airdropped later. Rate: 1 SOL = 1,000,000 $EPOCH1970.</p>
-        <button id="connectButton">Connect Solana Wallet</button>
-        <div id="walletInfo" style="display: none;">
-            <p>Connected Wallet: <span id="walletAddress"></span></p>
-            <input type="number" id="amount" placeholder="Amount of SOL" min="0.01" step="0.01">
-            <button id="buyButton" disabled>Buy $EPOCH1970</button>
-        </div>
-        <div id="status"></div>
-        <div id="error"></div>
+  <div class="card">
+    <h1>$EPOCH1970 PRESALE</h1>
+    <p>Verified since January 1970 — the original OG memecoin</p>
+    <p><strong>1 SOL = 1,000,000 $EPOCH1970</strong> (tokens airdropped after presale)</p>
+
+    <button id="connectButton">Connect Phantom Wallet</button>
+
+    <div id="walletInfo" style="display:none; margin-top:20px;">
+      <p>Connected: <span id="walletAddress"></span></p>
+      <input type="number" id="amount" placeholder="SOL amount" min="0.01" step="0.01" />
+      <button id="buyButton">Buy $EPOCH1970</button>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.js"></script>
-    <script>
-        // JSON config
-        const config = {
-            tokenName: "$EPOCH1970",
-            presaleAddress: "7HiYCrQXASerrznzkkwRD5JCz2838vLGTdKaQfmUvFtH", // Replace with actual Solana address
-            network: "devnet", // or "mainnet-beta"
-            rpcUrl: "https://api.devnet.solana.com", // or mainnet RPC
-            tokensPerSol: 1000000 // Example rate
-        };
+    <div id="status"></div>
+    <div id="error"></div>
+  </div>
 
-        const connectButton = document.getElementById('connectButton');
-        const buyButton = document.getElementById('buyButton');
-        const amountInput = document.getElementById('amount');
-        const walletAddressSpan = document.getElementById('walletAddress');
-        const walletInfo = document.getElementById('walletInfo');
-        const statusDiv = document.getElementById('status');
-        const errorDiv = document.getElementById('error');
+  <!-- Solana Web3.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
 
-        let walletPublicKey = null;
-        const connection = new solanaWeb3.Connection(config.rpcUrl, 'confirmed');
+  <script>
+    // ==== CONFIG — CHANGE THIS ====
+    const PRESALE_WALLET = "7HiYCrQXASerrznzkkwRD5JCz2838vLGTdKaQfmUvFtH"; // ← Put your real presale wallet here
+    const RPC_URL = "https://api.mainnet-beta.solana.com"; // mainnet (use devnet for testing)
+    // ===============================
 
-        async function connectWallet() {
-            if ('solana' in window) {
-                const provider = window.solana;
-                if (provider.isPhantom) {
-                    try {
-                        const resp = await provider.connect();
-                        walletPublicKey = resp.publicKey;
-                        walletAddressSpan.textContent = walletPublicKey.toString();
-                        walletInfo.style.display = 'block';
-                        connectButton.textContent = 'Wallet Connected';
-                        connectButton.disabled = true;
-                        buyButton.disabled = false;
-                        statusDiv.textContent = 'Wallet connected successfully!';
-                    } catch (err) {
-                        errorDiv.textContent = 'Connection failed: ' + err.message;
-                    }
-                } else {
-                    errorDiv.textContent = 'Phantom wallet not found. Please install it.';
-                }
-            } else {
-                errorDiv.textContent = 'Solana wallet not found. Install Phantom or similar.';
-            }
-        }
+    const connection = new solanaWeb3.Connection(RPC_URL);
+    let wallet = null;
 
-        async function buyTokens() {
-            if (!walletPublicKey) {
-                errorDiv.textContent = 'Wallet not connected.';
-                return;
-            }
-            const amount = parseFloat(amountInput.value);
-            if (isNaN(amount) || amount <= 0) {
-                errorDiv.textContent = 'Invalid amount.';
-                return;
-            }
+    document.getElementById("connectButton").onclick = async () => {
+      if (!window.solana || !window.solana.isPhantom) {
+        alert("Phantom not detected! Open this page inside Phantom app → Explore");
+        return;
+      }
+      try {
+        await window.solana.connect();
+        wallet = window.solana;
+        const addr = wallet.publicKey.toString();
+        document.getElementById("walletAddress").textContent = addr.slice(0,4)+"…"+addr.slice(-4);
+        document.getElementById("walletInfo").style.display = "block";
+        document.getElementById("connectButton").textContent = "Connected ✓";
+        document.getElementById("connectButton").disabled = true;
+        document.getElementById("status").textContent = "Wallet connected!";
+      } catch (e) {
+        document.getElementById("error").textContent = "Connection rejected";
+      }
+    };
 
-            try {
-                const from = walletPublicKey;
-                const to = new solanaWeb3.PublicKey(config.presaleAddress);
-                const lamports = amount * solanaWeb3.LAMPORTS_PER_SOL;
+    document.getElementById("buyButton").onclick = async () => {
+      if (!wallet) return alert("Connect wallet first");
 
-                const transaction = new solanaWeb3.Transaction().add(
-                    solanaWeb3.SystemProgram.transfer({
-                        fromPubkey: from,
-                        toPubkey: to,
-                        lamports: lamports,
-                    })
-                );
+      const solAmount = parseFloat(document.getElementById("amount").value);
+      if (!solAmount || solAmount < 0.01) return alert("Enter at least 0.01 SOL");
 
-                const { signature } = await window.solana.signAndSendTransaction(transaction);
-                await connection.confirmTransaction(signature, 'confirmed');
+      document.getElementById("buyButton").disabled = true;
+      document.getElementById("status").textContent = "Preparing transaction...";
 
-                statusDiv.textContent = `Transaction successful! Signature: ${signature}`;
-                errorDiv.textContent = '';
-            } catch (err) {
-                errorDiv.textContent = 'Transaction failed: ' + err.message;
-                statusDiv.textContent = '';
-            }
-        }
+      try {
+        // 1. Get fresh blockhash
+        const { blockhash } = await connection.getLatestBlockhash();
 
-        connectButton.addEventListener('click', connectWallet);
-        buyButton.addEventListener('click', buyTokens);
-    </script>
+        // 2. Build transfer instruction
+        const transferIx = solanaWeb3.SystemProgram.transfer({
+          fromPubkey: wallet.publicKey,
+          toPubkey: new solanaWeb3.PublicKey(PRESALE_WALLET),
+          lamports: Math.round(solAmount * solanaWeb3.LAMPORTS_PER_SOL),
+        });
+
+        // 3. Create transaction
+        const tx = new solanaWeb3.Transaction();
+        tx.recentBlockhash = blockhash;
+        tx.feePayer = wallet.publicKey;
+        tx.add(transferIx);
+
+        // 4. Sign + Send in one step (this works on Phantom mobile!)
+        const { signature } = await wallet.signAndSendTransaction(tx);
+
+        // 5. Confirm
+        await connection.confirmTransaction(signature, "confirmed");
+
+        document.getElementById("status").innerHTML = `
+          SUCCESS! 🎉<br>
+          ${solAmount} SOL sent<br>
+          <a href="https://solscan.io/tx/${signature}" target="_blank" style="color:#00ff9d;">
+            View transaction
+          </a>
+        `;
+      } catch (err) {
+        console.error(err);
+        document.getElementById("error").textContent = 
+          err.message.includes("User rejected") ? "You rejected the transaction" :
+          "Transaction failed: " + (err.message || "Unknown error");
+      } finally {
+        document.getElementById("buyButton").disabled = false;
+      }
+    };
+  </script>
 </body>
 </html>
