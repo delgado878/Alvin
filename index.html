@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>$EPOCH1970 Presale - This is a one time catch. </title>
+  <title>$EPOCH1970 Presale - Verified Since 1970</title>
   <style>
     body { font-family: Arial, sans-serif; background:#111; color:#fff; margin:0; padding:20px; text-align:center; }
     .card { background:#1a1a1a; padding:30px; border-radius:16px; max-width:500px; margin:40px auto; box-shadow:0 10px 30px rgba(0,0,0,0.5); }
@@ -37,10 +37,11 @@
   <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
 
   <script>
-    // ==== CONFIG — CHANGE THIS ====
-    const PRESALE_WALLET = "7HiYCrQXASerrznzkkwRD5JCz2838vLGTdKaQfmUvFtH"; // ← Put your real presale wallet here
-    const RPC_URL = "https://api.mainnet-beta.solana.com"; // mainnet (use devnet for testing)
-    // ===============================
+    // ==== CONFIG — ONLY CHANGE THESE TWO LINES ====
+    const PRESALE_WALLET = "7HiYCrQXASerrznzkkwRD5JCz2838vLGTdKaQfmUvFtH"; // Your real presale wallet
+    // FIXED: Using public RPC that works in browser (no 403 error)
+    const RPC_URL = "https://solana-api.projectserum.com";   // THIS FIXES THE BLOCKHASH 403 ERROR
+    // =============================================
 
     const connection = new solanaWeb3.Connection(RPC_URL);
     let wallet = null;
@@ -56,11 +57,12 @@
         const addr = wallet.publicKey.toString();
         document.getElementById("walletAddress").textContent = addr.slice(0,4)+"…"+addr.slice(-4);
         document.getElementById("walletInfo").style.display = "block";
-        document.getElementById("connectButton").textContent = "Connected ✓";
+        document.getElementById("connectButton").textContent = "Connected";
         document.getElementById("connectButton").disabled = true;
-        document.getElementById("status").textContent = "Wallet connected!";
+        document.getElementById("status").textContent = "Wallet connected! Ready to buy.";
+        document.getElementById("error").textContent = "";
       } catch (e) {
-        document.getElementById("error").textContent = "Connection rejected";
+        document.getElementById("error").textContent = "Connection rejected or failed";
       }
     };
 
@@ -74,40 +76,37 @@
       document.getElementById("status").textContent = "Preparing transaction...";
 
       try {
-        // 1. Get fresh blockhash
         const { blockhash } = await connection.getLatestBlockhash();
 
-        // 2. Build transfer instruction
         const transferIx = solanaWeb3.SystemProgram.transfer({
           fromPubkey: wallet.publicKey,
           toPubkey: new solanaWeb3.PublicKey(PRESALE_WALLET),
           lamports: Math.round(solAmount * solanaWeb3.LAMPORTS_PER_SOL),
         });
 
-        // 3. Create transaction
         const tx = new solanaWeb3.Transaction();
         tx.recentBlockhash = blockhash;
         tx.feePayer = wallet.publicKey;
         tx.add(transferIx);
 
-        // 4. Sign + Send in one step (this works on Phantom mobile!)
         const { signature } = await wallet.signAndSendTransaction(tx);
 
-        // 5. Confirm
         await connection.confirmTransaction(signature, "confirmed");
 
         document.getElementById("status").innerHTML = `
-          SUCCESS! 🎉<br>
-          ${solAmount} SOL sent<br>
-          <a href="https://solscan.io/tx/${signature}" target="_blank" style="color:#00ff9d;">
-            View transaction
+          SUCCESS!<br>
+          \( {solAmount} SOL sent → \){solAmount * 1000000} $EPOCH1970 coming soon!<br>
+          <a href="https://solscan.io/tx/${signature}" target="_blank" style="color:#00ff9d; text-decoration:underline;">
+            View on Solscan
           </a>
         `;
+        document.getElementById("error").textContent = "";
       } catch (err) {
         console.error(err);
+        const msg = err.message || "Unknown error";
         document.getElementById("error").textContent = 
-          err.message.includes("User rejected") ? "You rejected the transaction" :
-          "Transaction failed: " + (err.message || "Unknown error");
+          msg.includes("User rejected") ? "You cancelled the transaction" :
+          "Transaction failed: " + msg;
       } finally {
         document.getElementById("buyButton").disabled = false;
       }
