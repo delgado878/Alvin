@@ -3,836 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alvin Group | Healthcare Marketing Agency</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>$EPOCH1970 Presale</title>
     <style>
-        /* Base Styles */
-        * {
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
-
-        :root {
-            --primary: #1a73e8;
-            --secondary: #34a853;
-            --accent: #fbbc05;
-            --dark: #202124;
-            --light: #f8f9fa;
-            --gray: #5f6368;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background-color: var(--light);
-            color: var(--dark);
-            line-height: 1.6;
-        }
-
         .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
-
-        section {
-            padding: 80px 0;
-        }
-
-        h1, h2, h3, h4 {
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
-
-        h1 {
-            font-size: 3.5rem;
-        }
-
-        h2 {
-            font-size: 2.5rem;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 100%;
             text-align: center;
-            margin-bottom: 3rem;
-            position: relative;
         }
-
-        h2:after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: var(--primary);
+        h1 {
+            color: #007bff;
         }
-
         p {
-            margin-bottom: 1.5rem;
+            margin: 10px 0;
         }
-
-        .btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background: var(--primary);
+        button {
+            background-color: #007bff;
             color: white;
             border: none;
-            border-radius: 4px;
-            font-size: 1rem;
-            font-weight: 600;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 5px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-        .btn:hover {
-            background: #0d5bb9;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-secondary {
-            background: var(--secondary);
-        }
-
-        .btn-secondary:hover {
-            background: #2a8c47;
-        }
-
-        /* Header & Navigation */
-        header {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary);
-            text-decoration: none;
-        }
-
-        .logo span {
-            color: var(--secondary);
-        }
-
-        .nav-menu {
-            display: flex;
-            list-style: none;
-        }
-
-        .nav-menu li {
-            margin-left: 30px;
-        }
-
-        .nav-menu a {
-            text-decoration: none;
-            color: var(--dark);
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .nav-menu a:hover {
-            color: var(--primary);
-        }
-
-        .hamburger {
-            display: none;
-            cursor: pointer;
-            font-size: 1.5rem;
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            text-align: center;
-            padding: 180px 0 100px;
-            margin-top: 80px;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto 2rem;
-        }
-
-        /* Services Section */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .service-card {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-        }
-
-        .service-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .service-img {
-            height: 200px;
-            overflow: hidden;
-        }
-
-        .service-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .service-card:hover .service-img img {
-            transform: scale(1.1);
-        }
-
-        .service-content {
-            padding: 25px;
-        }
-
-        .service-content h3 {
-            color: var(--primary);
-            margin-bottom: 15px;
-        }
-
-        /* About Section */
-        .about {
-            background: #f0f7ff;
-        }
-
-        .about-container {
-            display: flex;
-            align-items: center;
-            gap: 50px;
-        }
-
-        .about-img {
-            flex: 1;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .about-img img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .about-content {
-            flex: 1;
-        }
-
-        .about-content h2 {
-            text-align: left;
-        }
-
-        .about-content h2:after {
-            left: 0;
-            transform: none;
-        }
-
-        /* Testimonials Section */
-        .testimonials {
-            background: white;
-        }
-
-        .testimonial-slider {
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .testimonial {
-            background: #f8f9fa;
-            padding: 30px;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .testimonial-text {
-            font-style: italic;
-            margin-bottom: 20px;
-            font-size: 1.1rem;
-        }
-
-        .testimonial-author {
-            font-weight: 600;
-            color: var(--primary);
-        }
-
-        .testimonial-role {
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-
-        .slider-controls {
-            display: flex;
-            justify-content: center;
-            margin-top: 30px;
-            gap: 10px;
-        }
-
-        .slider-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #ddd;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .slider-dot.active {
-            background: var(--primary);
-        }
-
-        /* Contact Section */
-        .contact {
-            background: #f0f7ff;
-        }
-
-        .contact-container {
-            display: flex;
-            gap: 50px;
-        }
-
-        .contact-info {
-            flex: 1;
-        }
-
-        .contact-info h3 {
-            margin-bottom: 20px;
-            color: var(--primary);
-        }
-
-        .contact-details {
-            margin-bottom: 30px;
-        }
-
-        .contact-detail {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .contact-detail i {
-            margin-right: 15px;
-            color: var(--primary);
-            font-size: 1.2rem;
-            width: 20px;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 15px;
-        }
-
-        .social-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: var(--primary);
-            color: white;
-            border-radius: 50%;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .social-link:hover {
-            background: var(--secondary);
-            transform: translateY(-3px);
-        }
-
-        .contact-form {
-            flex: 1;
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1rem;
-            transition: border 0.3s ease;
-        }
-
-        .form-control:focus {
-            border-color: var(--primary);
-            outline: none;
-        }
-
-        textarea.form-control {
-            min-height: 150px;
-            resize: vertical;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--dark);
-            color: white;
-            padding: 60px 0 30px;
-        }
-
-        .footer-container {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .footer-col {
-            flex: 1;
-            min-width: 250px;
-        }
-
-        .footer-col h3 {
-            color: white;
-            margin-bottom: 20px;
-            position: relative;
-            padding-bottom: 10px;
-        }
-
-        .footer-col h3:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 40px;
-            height: 3px;
-            background: var(--primary);
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 10px;
-        }
-
-        .footer-links a {
-            color: #ddd;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:hover {
-            color: var(--primary);
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #aaa;
-            font-size: 0.9rem;
-        }
-
-        /* Responsive Styles */
-        @media (max-width: 992px) {
-            h1 {
-                font-size: 2.8rem;
-            }
-            
-            h2 {
-                font-size: 2.2rem;
-            }
-            
-            .about-container,
-            .contact-container {
-                flex-direction: column;
-            }
-            
-            .about-img {
-                margin-bottom: 30px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .hamburger {
-                display: block;
-            }
-            
-            .nav-menu {
-                position: fixed;
-                top: 80px;
-                right: -100%;
-                flex-direction: column;
-                background: white;
-                width: 80%;
-                max-width: 300px;
-                height: calc(100vh - 80px);
-                transition: right 0.3s ease;
-                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-                padding: 30px;
-            }
-            
-            .nav-menu.active {
-                right: 0;
-            }
-            
-            .nav-menu li {
-                margin: 15px 0;
-            }
-            
-            .hero {
-                padding: 150px 0 80px;
-            }
-            
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            h1 {
-                font-size: 2.2rem;
-            }
-            
-            h2 {
-                font-size: 1.8rem;
-            }
-            
-            section {
-                padding: 60px 0;
-            }
-            
-            .hero {
-                padding: 130px 0 60px;
-            }
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        input {
+            padding: 10px;
+            margin: 10px 0;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #status {
+            margin-top: 20px;
+            color: #28a745;
+        }
+        #error {
+            margin-top: 20px;
+            color: #dc3545;
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container header-container">
-            <a href="#" class="logo">Alvin Medical<span>Group</span></a>
-            <div class="hamburger" id="hamburger">
-                <i class="fas fa-bars"></i>
-            </div>
-            <ul class="nav-menu" id="nav-menu">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#testimonials">Testimonials</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+    <div class="container">
+        <h1>$EPOCH1970 Presale</h1>
+        <p>Join the memecoin inspired by Elon Musk's Unix Epoch easter egg – Verified since January 1970!</p>
+        <p>Presale: Send SOL to get tokens airdropped later. Rate: 1 SOL = 1,000,000 $EPOCH1970 (placeholder).</p>
+        <button id="connectButton">Connect Solana Wallet</button>
+        <div id="walletInfo" style="display: none;">
+            <p>Connected Wallet: <span id="walletAddress"></span></p>
+            <input type="number" id="amount" placeholder="Amount of SOL" min="0.01" step="0.01">
+            <button id="buyButton" disabled>Buy $EPOCH1970</button>
         </div>
-    </header>
+        <div id="status"></div>
+        <div id="error"></div>
+    </div>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="container">
-            <h1>Premium Healthcare Marketing That Connects & Converts</h1>
-            <p>Alvin Medical Group specializes in creating impactful marketing strategies for healthcare providers, pharmaceutical companies, and medical technology firms.</p>
-            <a href="#contact" class="btn">Get Started</a>
-        </div>
-    </section>
-
-    <!-- Services Section -->
-    <section class="services" id="services">
-        <div class="container">
-            <h2>Our Services</h2>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-img">
-                        <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2080&q=80" alt="Digital Marketing">
-                    </div>
-                    <div class="service-content">
-                        <h3>Digital Marketing</h3>
-                        <p>Comprehensive digital strategies including SEO, PPC, social media, and content marketing tailored for healthcare audiences.</p>
-                        <a href="#" class="btn">Learn More</a>
-                    </div>
-                </div>
-                <div class="service-card">
-                    <div class="service-img">
-                        <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80" alt="Brand Strategy">
-                    </div>
-                    <div class="service-content">
-                        <h3>Brand Strategy</h3>
-                        <p>Develop compelling brand identities that resonate with patients, providers, and healthcare stakeholders.</p>
-                        <a href="#" class="btn">Learn More</a>
-                    </div>
-                </div>
-                <div class="service-card">
-                    <div class="service-img">
-                        <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2073&q=80" alt="Content Creation">
-                    </div>
-                    <div class="service-content">
-                        <h3>Content Creation</h3>
-                        <p>Educational and engaging content that builds trust and establishes your organization as an industry leader.</p>
-                        <a href="#" class="btn">Learn More</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="about" id="about">
-        <div class="container">
-            <div class="about-container">
-                <div class="about-img">
-                    <img src="https://images.unsplash.com/photo-1551836026-d5c8c2a6d7a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2073&q=80" alt="About Alvin Group">
-                </div>
-                <div class="about-content">
-                    <h2>About Alvin Group</h2>
-                    <p>Founded in 2010, Alvin Group has established itself as a premier healthcare marketing agency with a focus on delivering measurable results for our clients. Our team combines deep healthcare industry knowledge with cutting-edge marketing expertise.</p>
-                    <p>We understand the unique challenges and regulatory considerations of healthcare marketing, allowing us to create campaigns that are both compliant and compelling.</p>
-                    <p>Our mission is to help healthcare organizations connect with their audiences, build trust, and drive growth through strategic marketing initiatives.</p>
-                    <a href="#contact" class="btn btn-secondary">Contact Us</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section class="testimonials" id="testimonials">
-        <div class="container">
-            <h2>What Our Clients Say</h2>
-            <div class="testimonial-slider">
-                <div class="testimonial">
-                    <p class="testimonial-text">"Alvin Group transformed our online presence and helped us connect with 40% more patients in just six months. Their healthcare expertise made all the difference."</p>
-                    <p class="testimonial-author">Dr. Sarah Johnson</p>
-                    <p class="testimonial-role">Medical Director, HealthPlus Clinic</p>
-                </div>
-                <div class="slider-controls">
-                    <div class="slider-dot active"></div>
-                    <div class="slider-dot"></div>
-                    <div class="slider-dot"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="contact" id="contact">
-        <div class="container">
-            <h2>Get In Touch</h2>
-            <div class="contact-container">
-                <div class="contact-info">
-                    <h3>Contact Information</h3>
-                    <div class="contact-details">
-                        <div class="contact-detail">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <p>Alvin Medical Services, Kampala </p>
-                        </div>
-                        <div class="contact-detail">
-                            <i class="fas fa-phone"></i>
-                            <p>+256778563210</p>
-                        </div>
-                        <div class="contact-detail">
-                            <i class="fas fa-envelope"></i>
-                            <p>info@alvinmed.com</p>
-                        </div>
-                    </div>
-                    <h3>Follow Us</h3>
-                    <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                        <a href="x.com/WarpSynk" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-                <div class="contact-form">
-                    <form id="contactForm">
-                        <div class="form-group">
-                            <label for="name">Full Name</label>
-                            <input type="text" id="name" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="organization">Organization</label>
-                            <input type="text" id="organization" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea id="message" class="form-control" required></textarea>
-                        </div>
-                        <button type="submit" class="btn">Send Message</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-container">
-                <div class="footer-col">
-                    <h3>Alvin Group</h3>
-                    <p>Specialized healthcare marketing solutions that drive growth and build lasting patient relationships.</p>
-                </div>
-                <div class="footer-col">
-                    <h3>Quick Links</h3>
-                    <ul class="footer-links">
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#services">Services</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#testimonials">Testimonials</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h3>Services</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Digital Marketing</a></li>
-                        <li><a href="#">Brand Strategy</a></li>
-                        <li><a href="#">Content Creation</a></li>
-                        <li><a href="#">Social Media Management</a></li>
-                        <li><a href="#">Patient Engagement</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2025 Alvin Medical Group. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
+    <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.js"></script>
     <script>
-        // Hamburger Menu Toggle
-        const hamburger = document.getElementById('hamburger');
-        const navMenu = document.getElementById('nav-menu');
+        // JSON config
+        const config = {
+            tokenName: "$EPOCH1970",
+            presaleAddress: "YourPresaleWalletAddressHere", // Replace with actual Solana address
+            network: "devnet", // or "mainnet-beta"
+            rpcUrl: "https://api.devnet.solana.com", // or mainnet RPC
+            tokensPerSol: 1000000 // Example rate
+        };
 
-        hamburger.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-            hamburger.innerHTML = navMenu.classList.contains('active') 
-                ? '<i class="fas fa-times"></i>' 
-                : '<i class="fas fa-bars"></i>';
-        });
+        const connectButton = document.getElementById('connectButton');
+        const buyButton = document.getElementById('buyButton');
+        const amountInput = document.getElementById('amount');
+        const walletAddressSpan = document.getElementById('walletAddress');
+        const walletInfo = document.getElementById('walletInfo');
+        const statusDiv = document.getElementById('status');
+        const errorDiv = document.getElementById('error');
 
-        // Close menu when clicking on a link
-        document.querySelectorAll('.nav-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                navMenu.classList.remove('active');
-                hamburger.innerHTML = '<i class="fas fa-bars"></i>';
-            });
-        });
+        let walletPublicKey = null;
+        const connection = new solanaWeb3.Connection(config.rpcUrl, 'confirmed');
 
-        // Testimonial Slider
-        const testimonials = [
-            {
-                text: '"Alvin Group transformed our online presence and helped us connect with 40% more patients in just six months. Their healthcare expertise made all the difference."',
-                author: "Dr. Sarah Johnson",
-                role: "Medical Director, HealthPlus Clinic"
-            },
-            {
-                text: '"The content strategy developed by Alvin Group positioned us as thought leaders in our specialty. We\'ve seen a significant increase in referral sources."',
-                author: "Michael Torres",
-                role: "CEO, Advanced Medical Systems"
-            },
-            {
-                text: '"Working with Alvin Group was a game-changer for our pharmaceutical launch. Their targeted approach delivered exceptional ROI."',
-                author: "Jennifer Lee",
-                role: "Marketing Director, PharmaCorp"
+        async function connectWallet() {
+            if ('solana' in window) {
+                const provider = window.solana;
+                if (provider.isPhantom) {
+                    try {
+                        const resp = await provider.connect();
+                        walletPublicKey = resp.publicKey;
+                        walletAddressSpan.textContent = walletPublicKey.toString();
+                        walletInfo.style.display = 'block';
+                        connectButton.textContent = 'Wallet Connected';
+                        connectButton.disabled = true;
+                        buyButton.disabled = false;
+                        statusDiv.textContent = 'Wallet connected successfully!';
+                    } catch (err) {
+                        errorDiv.textContent = 'Connection failed: ' + err.message;
+                    }
+                } else {
+                    errorDiv.textContent = 'Phantom wallet not found. Please install it.';
+                }
+            } else {
+                errorDiv.textContent = 'Solana wallet not found. Install Phantom or similar.';
             }
-        ];
-
-        let currentTestimonial = 0;
-        const testimonialElement = document.querySelector('.testimonial');
-        const dots = document.querySelectorAll('.slider-dot');
-
-        function updateTestimonial() {
-            testimonialElement.innerHTML = `
-                <p class="testimonial-text">${testimonials[currentTestimonial].text}</p>
-                <p class="testimonial-author">${testimonials[currentTestimonial].author}</p>
-                <p class="testimonial-role">${testimonials[currentTestimonial].role}</p>
-            `;
-            
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentTestimonial);
-            });
         }
 
-        dots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                currentTestimonial = index;
-                updateTestimonial();
-            });
-        });
+        async function buyTokens() {
+            if (!walletPublicKey) {
+                errorDiv.textContent = 'Wallet not connected.';
+                return;
+            }
+            const amount = parseFloat(amountInput.value);
+            if (isNaN(amount) || amount <= 0) {
+                errorDiv.textContent = 'Invalid amount.';
+                return;
+            }
 
-        // Auto-rotate testimonials
-        setInterval(() => {
-            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
-            updateTestimonial();
-        }, 5000);
+            try {
+                const from = walletPublicKey;
+                const to = new solanaWeb3.PublicKey(config.presaleAddress);
+                const lamports = amount * solanaWeb3.LAMPORTS_PER_SOL;
 
-        // Contact Form Submission
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Thank you for your message! We will get back to you soon.');
-            this.reset();
-        });
+                const transaction = new solanaWeb3.Transaction().add(
+                    solanaWeb3.SystemProgram.transfer({
+                        fromPubkey: from,
+                        toPubkey: to,
+                        lamports: lamports,
+                    })
+                );
 
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
+                const { signature } = await window.solana.signAndSendTransaction(transaction);
+                await connection.confirmTransaction(signature, 'confirmed');
+
+                statusDiv.textContent = `Transaction successful! Signature: ${signature}`;
+                errorDiv.textContent = '';
+            } catch (err) {
+                errorDiv.textContent = 'Transaction failed: ' + err.message;
+                statusDiv.textContent = '';
+            }
+        }
+
+        connectButton.addEventListener('click', connectWallet);
+        buyButton.addEventListener('click', buyTokens);
     </script>
 </body>
 </html>
