@@ -15,48 +15,112 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Roboto+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* Custom animations */
+        /* CSS Styles */
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-20px); }
         }
-        .animate-float {
-            animation: float 6s ease-in-out infinite;
-        }
-
+        
         @keyframes pulse-slow {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
         }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
         .animate-pulse-slow {
             animation: pulse-slow 3s ease-in-out infinite;
         }
-
+        
         .crypto-grid {
             background-image: 
                 linear-gradient(rgba(16, 185, 129, 0.1) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(16, 185, 129, 0.1) 1px, transparent 1px);
             background-size: 50px 50px;
         }
-
-        /* Mobile responsiveness improvements */
+        
+        /* Network Selection Colors */
+        .network-solana {
+            border-color: #9945FF;
+            color: #9945FF;
+        }
+        
+        .network-solana:hover {
+            background-color: rgba(153, 69, 255, 0.1);
+        }
+        
+        .network-bnb {
+            border-color: #F0B90B;
+            color: #F0B90B;
+        }
+        
+        .network-bnb:hover {
+            background-color: rgba(240, 185, 11, 0.1);
+        }
+        
+        .network-ethereum {
+            border-color: #627EEA;
+            color: #627EEA;
+        }
+        
+        .network-ethereum:hover {
+            background-color: rgba(98, 126, 234, 0.1);
+        }
+        
+        .network-selected {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #10b981;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #34d399;
+        }
+        
+        /* Responsive Design */
         @media (max-width: 768px) {
             .hero-title {
                 font-size: 2.5rem;
             }
+            
             .section-padding {
                 padding-left: 1rem;
                 padding-right: 1rem;
             }
+            
+            .dashboard-card {
+                padding: 1.5rem;
+            }
         }
-
-        /* Profile dropdown styles */
-        .profile-dropdown {
-            transition: all 0.3s ease;
+        
+        @media (max-width: 640px) {
+            .mobile-stack {
+                flex-direction: column;
+            }
+            
+            .mobile-full {
+                width: 100%;
+            }
         }
     </style>
 
     <script>
+        // Tailwind Configuration
         tailwind.config = {
             theme: {
                 extend: {
@@ -67,10 +131,15 @@
                         'defi-accent': '#10b981',
                         'defi-accent-hover': '#34d399',
                         'defi-muted': '#94a3b8',
+                        'defi-warning': '#f59e0b',
+                        'defi-danger': '#ef4444',
                     },
                     fontFamily: {
                         'orbitron': ['Orbitron', 'sans-serif'],
                         'mono': ['Roboto Mono', 'monospace'],
+                    },
+                    animation: {
+                        'ping-slow': 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite',
                     }
                 }
             }
@@ -78,13 +147,13 @@
     </script>
 </head>
 <body class="bg-defi-dark text-white font-mono min-h-screen">
-    <!-- Animated background elements -->
+    <!-- Animated Background -->
     <div class="fixed inset-0 crypto-grid z-0"></div>
     <div class="fixed top-1/4 left-10 w-4 h-4 bg-defi-accent rounded-full opacity-20 animate-float"></div>
     <div class="fixed top-1/3 right-20 w-6 h-6 bg-defi-accent rounded-full opacity-30 animate-float" style="animation-delay: -2s;"></div>
     <div class="fixed bottom-1/4 left-1/4 w-3 h-3 bg-defi-accent rounded-full opacity-40 animate-float" style="animation-delay: -4s;"></div>
 
-    <!-- Header & Navigation -->
+    <!-- Header -->
     <header class="relative z-10 bg-defi-card/80 backdrop-blur-md border-b border-defi-accent/20">
         <div class="container mx-auto px-4 py-4">
             <div class="flex justify-between items-center">
@@ -93,57 +162,17 @@
                     <span class="font-orbitron text-xl font-bold">YieldFarm</span>
                 </div>
 
-                <!-- Desktop Navigation -->
+                <!-- Navigation -->
                 <nav class="hidden md:flex space-x-8">
                     <a href="#dashboard" class="hover:text-defi-accent transition-colors">Dashboard</a>
-                    <a href="#invest" class="hover:text-defi-accent transition-colors">Invest</a>
+                    <a href="#withdraw" class="hover:text-defi-accent transition-colors">Withdraw</a>
                     <a href="#about" class="hover:text-defi-accent transition-colors">About</a>
-                    <a href="#team" class="hover:text-defi-accent transition-colors">Team</a>
-                    <a href="#testimonials" class="hover:text-defi-accent transition-colors">Testimonials</a>
-                    <a href="#faq" class="hover:text-defi-accent transition-colors">FAQ</a>
                 </nav>
 
-                <!-- User Profile Dropdown -->
-                <div class="relative" id="user-section">
-                    <button id="profile-dropdown-button" class="flex items-center space-x-3 bg-defi-darker/60 px-4 py-2 rounded-lg border border-defi-accent/20 hover:bg-defi-darker transition-colors">
-                        <div class="w-3 h-3 bg-defi-accent rounded-full animate-pulse-slow"></div>
-                        <span class="text-sm max-w-[150px] truncate">alloysiousarinaitwe200@gmail.com</span>
-                        <i class="fas fa-chevron-down text-defi-accent text-xs"></i>
-                    </button>
-
-                    <!-- Dropdown Menu -->
-                    <div id="profile-dropdown" class="profile-dropdown absolute right-0 mt-2 w-64 bg-defi-card rounded-xl border border-defi-accent/20 shadow-lg z-20 hidden">
-                        <div class="p-4 border-b border-defi-accent/20">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-10 h-10 bg-defi-accent/20 rounded-full flex items-center justify-center">
-                                    <i class="fas fa-user text-defi-accent"></i>
-                                </div>
-                                <div>
-                                    <p class="font-bold truncate">alloysiousarinaitwe200@gmail.com</p>
-                                    <p class="text-defi-muted text-sm">Premium Investor</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="p-2">
-                            <a href="#dashboard" class="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-defi-darker/60 transition-colors">
-                                <i class="fas fa-tachometer-alt text-defi-accent w-5"></i>
-                                <span>Dashboard</span>
-                            </a>
-                            <a href="#invest" class="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-defi-darker/60 transition-colors">
-                                <i class="fas fa-chart-line text-defi-accent w-5"></i>
-                                <span>Invest</span>
-                            </a>
-                            <a href="#about" class="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-defi-darker/60 transition-colors">
-                                <i class="fas fa-info-circle text-defi-accent w-5"></i>
-                                <span>About Project</span>
-                            </a>
-                            <div class="border-t border-defi-accent/20 my-2"></div>
-                            <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-defi-darker/60 transition-colors text-red-400 hover:text-red-300">
-                                <i class="fas fa-sign-out-alt w-5"></i>
-                                <span>Logout</span>
-                            </a>
-                        </div>
-                    </div>
+                <!-- User Profile -->
+                <div class="flex items-center space-x-3 bg-defi-darker/60 px-4 py-2 rounded-lg border border-defi-accent/20">
+                    <div class="w-3 h-3 bg-defi-accent rounded-full animate-pulse-slow"></div>
+                    <span class="text-sm max-w-[150px] truncate">alloysiousarinaitwe200@gmail.com</span>
                 </div>
 
                 <!-- Mobile Menu Button -->
@@ -152,22 +181,12 @@
                 </button>
             </div>
 
-            <!-- Mobile Menu (Hidden by default) -->
+            <!-- Mobile Menu -->
             <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t border-defi-accent/20 pt-4">
                 <div class="flex flex-col space-y-4">
                     <a href="#dashboard" class="hover:text-defi-accent transition-colors py-2">Dashboard</a>
-                    <a href="#invest" class="hover:text-defi-accent transition-colors py-2">Invest</a>
+                    <a href="#withdraw" class="hover:text-defi-accent transition-colors py-2">Withdraw</a>
                     <a href="#about" class="hover:text-defi-accent transition-colors py-2">About</a>
-                    <a href="#team" class="hover:text-defi-accent transition-colors py-2">Team</a>
-                    <a href="#testimonials" class="hover:text-defi-accent transition-colors py-2">Testimonials</a>
-                    <a href="#faq" class="hover:text-defi-accent transition-colors py-2">FAQ</a>
-                    <div class="pt-4 border-t border-defi-accent/20" id="mobile-user">
-                        <div class="flex items-center space-x-3 mb-4">
-                            <div class="w-3 h-3 bg-defi-accent rounded-full animate-pulse-slow"></div>
-                            <span class="text-sm truncate">alloysiousarinaitwe200@gmail.com</span>
-                        </div>
-                        <a href="#" class="w-full text-left py-2 text-red-400 hover:text-red-300">Logout</a>
-                    </div>
                 </div>
             </div>
         </div>
@@ -179,157 +198,301 @@
             <h1 class="font-orbitron text-4xl md:text-6xl font-bold mb-6 hero-title">Yield <span class="text-defi-accent">Farming</span> Reinvented</h1>
             <p class="text-defi-muted text-lg md:text-xl max-w-2xl mx-auto mb-8">Earn 30% to 200% APY on your USDT deposits. The future of decentralized finance is here.</p>
             <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="#invest" class="bg-defi-accent hover:bg-defi-accent-hover text-defi-darker font-bold py-3 px-8 rounded-lg transition-colors text-center">Start Earning Now</a>
-                <a href="#about" class="border border-defi-accent text-defi-accent hover:bg-defi-accent/10 font-bold py-3 px-8 rounded-lg transition-colors text-center">Learn More</a>
+                <a href="#dashboard" class="bg-defi-accent hover:bg-defi-accent-hover text-defi-darker font-bold py-3 px-8 rounded-lg transition-colors text-center">View Dashboard</a>
+                <a href="#withdraw" class="border border-defi-accent text-defi-accent hover:bg-defi-accent/10 font-bold py-3 px-8 rounded-lg transition-colors text-center">Withdraw Funds</a>
             </div>
         </section>
-
-
-
-
 
         <!-- Dashboard Section -->
         <section id="dashboard" class="mb-16">
             <h2 class="font-orbitron text-3xl font-bold mb-8 text-center">Investment Dashboard</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="bg-defi-card p-6 rounded-xl border border-defi-accent/20">
+            
+            <!-- Dashboard Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <!-- Total Investment Card -->
+                <div class="bg-defi-card p-6 rounded-xl border border-defi-accent/20 dashboard-card">
                     <div class="flex justify-between items-start">
                         <div>
                             <p class="text-defi-muted">Total Investment</p>
-                            <p class="text-3xl font-bold mt-2" id="balance-display">570.000 USDT</p>
+                            <p class="text-3xl font-bold mt-2" id="total-investment">570.000 USDT</p>
                         </div>
                         <i class="fas fa-wallet text-defi-accent text-2xl"></i>
                     </div>
                 </div>
-                <div class="bg-defi-card p-6 rounded-xl border border-defi-accent/20">
+
+                <!-- Active Investments Card -->
+                <div class="bg-defi-card p-6 rounded-xl border border-defi-accent/20 dashboard-card">
                     <div class="flex justify-between items-start">
                         <div>
                             <p class="text-defi-muted">Active Investments</p>
-                            <p class="text-3xl font-bold mt-2" id="investments-display">1</p>
+                            <p class="text-3xl font-bold mt-2" id="active-investments">1</p>
                         </div>
                         <i class="fas fa-chart-line text-defi-accent text-2xl"></i>
                     </div>
                 </div>
-                <div class="bg-defi-card p-6 rounded-xl border border-defi-accent/20">
+
+                <!-- Total Earnings Card -->
+                <div class="bg-defi-card p-6 rounded-xl border border-defi-accent/20 dashboard-card">
                     <div class="flex justify-between items-start">
                         <div>
                             <p class="text-defi-muted">Total Earnings</p>
-
-
-
-
-
-
-                            <p class="text-3xl font-bold mt-2" id="earnings-display">307.010 USDT</p>
+                            <p class="text-3xl font-bold mt-2" id="total-earnings">685.000 USDT</p>
                         </div>
-
-
-
-
-
-
                         <i class="fas fa-coins text-defi-accent text-2xl"></i>
+                    </div>
+                </div>
+
+                <!-- Total Balance Card -->
+                <div class="bg-defi-card p-6 rounded-xl border border-defi-accent/20 dashboard-card">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-defi-muted">Total Balance</p>
+                            <p class="text-3xl font-bold mt-2" id="total-balance">1255.000 USDT</p>
+                            <p class="text-sm text-defi-accent mt-1" id="balance-breakdown">570.000 + 685.000</p>
+                        </div>
+                        <i class="fas fa-chart-pie text-defi-accent text-2xl"></i>
                     </div>
                 </div>
             </div>
 
-            <!-- Earnings Chart Placeholder -->
-            <div class="bg-defi-card p-6 rounded-xl border border-defi-accent/20">
-                <h3 class="font-orbitron text-xl font-bold mb-6">Weekly Earnings Projection</h3>
-                <div class="h-64 flex items-center justify-center border-2 border-dashed border-defi-accent/30 rounded-lg">
-                    <p class="text-defi-muted text-center px-4" id="chart-message">Earnings chart will appear here when you have active investments</p>
-                    <canvas id="earnings-chart" class="hidden"></canvas>
+            <!-- Fees Information Card -->
+            <div class="bg-defi-card p-6 rounded-xl border border-defi-accent/20 mb-8">
+                <h3 class="font-orbitron text-xl font-bold mb-6 flex items-center">
+                    <i class="fas fa-gas-pump text-defi-accent mr-3"></i>
+                    Service & Gas Fees Information
+                </h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Daily Fee -->
+                    <div class="bg-defi-darker/60 p-4 rounded-lg border border-defi-accent/20">
+                        <div class="flex items-center mb-3">
+                            <i class="fas fa-calendar-day text-defi-warning mr-2"></i>
+                            <h4 class="font-bold">Daily Fee</h4>
+                        </div>
+                        <p class="text-2xl font-bold text-defi-warning">$2 / day</p>
+                        <p class="text-defi-muted text-sm mt-1">For gas and platform services</p>
+                    </div>
+
+                    <!-- Total Fees -->
+                    <div class="bg-defi-darker/60 p-4 rounded-lg border border-defi-accent/20">
+                        <div class="flex items-center mb-3">
+                            <i class="fas fa-calculator text-defi-warning mr-2"></i>
+                            <h4 class="font-bold">Total Fees (90 days)</h4>
+                        </div>
+                        <p class="text-2xl font-bold text-defi-warning">$180</p>
+                        <p class="text-defi-muted text-sm mt-1">$2 × 90 days</p>
+                    </div>
+
+                    <!-- Fee Status -->
+                    <div class="bg-defi-darker/60 p-4 rounded-lg border border-defi-accent/20">
+                        <div class="flex items-center mb-3">
+                            <i class="fas fa-info-circle text-defi-warning mr-2"></i>
+                            <h4 class="font-bold">Fee Status</h4>
+                        </div>
+                        <p class="text-2xl font-bold text-defi-warning">Payable</p>
+                        <p class="text-defi-muted text-sm mt-1">Due upon withdrawal</p>
+                    </div>
+                </div>
+
+                <!-- Payment Wallet Info -->
+                <div class="mt-6 p-4 bg-defi-darker/40 rounded-lg border border-defi-warning/20">
+                    <h4 class="font-bold mb-3 flex items-center">
+                        <i class="fas fa-wallet text-defi-warning mr-2"></i>
+                        Payment Wallet Address
+                    </h4>
+                    <div class="flex items-center">
+                        <div class="flex-grow bg-defi-darker py-3 px-4 rounded-l-lg border border-defi-warning/20 overflow-x-auto">
+                            <code class="text-defi-warning text-sm md:text-base" id="fee-wallet-address">
+                                0x7BBC9dc43f32339209ffD131F4B5391241055335
+                            </code>
+                        </div>
+                        <button id="copy-fee-wallet" class="bg-defi-warning hover:bg-amber-500 text-defi-darker font-bold py-3 px-4 rounded-r-lg transition-colors whitespace-nowrap">
+                            Copy
+                        </button>
+                    </div>
+                    <p class="text-defi-muted text-sm mt-2">
+                        <i class="fas fa-exclamation-triangle mr-1"></i>
+                        Send BNB to this address for gas and service fees
+                    </p>
                 </div>
             </div>
         </section>
 
-        <!-- Investment Calculator & Form -->
-        <section id="invest" class="mb-16">
-            <h2 class="font-orbitron text-3xl font-bold mb-8 text-center">Start Earning Today</h2>
+        <!-- Withdraw Section -->
+        <section id="withdraw" class="mb-16">
+            <h2 class="font-orbitron text-3xl font-bold mb-8 text-center">Withdraw Funds</h2>
+            
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <!-- Calculator Form -->
+                <!-- Network Selection -->
                 <div class="bg-defi-card p-6 rounded-xl border border-defi-accent/20">
-                    <h3 class="font-orbitron text-xl font-bold mb-6">Investment Calculator</h3>
+                    <h3 class="font-orbitron text-xl font-bold mb-6">Select Network</h3>
+                    <p class="text-defi-muted mb-6">Choose the blockchain network for your withdrawal</p>
+                    
+                    <div class="space-y-4" id="network-selection">
+                        <!-- Solana Network -->
+                        <button class="network-option w-full p-4 rounded-lg border-2 network-solana transition-all duration-300 flex items-center justify-between" data-network="solana">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center mr-4">
+                                    <i class="fab fa-solana text-purple-500"></i>
+                                </div>
+                                <div class="text-left">
+                                    <h4 class="font-bold">Solana</h4>
+                                    <p class="text-defi-muted text-sm">Fast & low-cost transactions</p>
+                                </div>
+                            </div>
+                            <i class="fas fa-check-circle text-purple-500 hidden"></i>
+                        </button>
 
-                    <div class="mb-6">
-                        <label class="block text-defi-muted mb-2">Deposit Amount (USDT)</label>
-                        <input type="number" id="amount" min="500" max="1000000" value="5000" 
-                            class="w-full bg-defi-darker border border-defi-accent/20 rounded-lg py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-defi-accent">
-                        <p class="text-defi-muted text-sm mt-2">Minimum: 500 USDT. Maximum: 1,000,000 USDT</p>
+                        <!-- BNB Network -->
+                        <button class="network-option w-full p-4 rounded-lg border-2 network-bnb transition-all duration-300 flex items-center justify-between" data-network="bnb">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-yellow-500/20 flex items-center justify-center mr-4">
+                                    <i class="fab fa-btc text-yellow-500"></i>
+                                </div>
+                                <div class="text-left">
+                                    <h4 class="font-bold">BNB Smart Chain</h4>
+                                    <p class="text-defi-muted text-sm">EVM compatible, medium fees</p>
+                                </div>
+                            </div>
+                            <i class="fas fa-check-circle text-yellow-500 hidden"></i>
+                        </button>
+
+                        <!-- Ethereum Network -->
+                        <button class="network-option w-full p-4 rounded-lg border-2 network-ethereum transition-all duration-300 flex items-center justify-between" data-network="ethereum">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center mr-4">
+                                    <i class="fab fa-ethereum text-blue-500"></i>
+                                </div>
+                                <div class="text-left">
+                                    <h4 class="font-bold">Ethereum</h4>
+                                    <p class="text-defi-muted text-sm">Secure but higher fees</p>
+                                </div>
+                            </div>
+                            <i class="fas fa-check-circle text-blue-500 hidden"></i>
+                        </button>
                     </div>
 
-                    <div class="mb-6">
-                        <label class="block text-defi-muted mb-2">Lock Period: <span id="termValue">12</span> months</label>
-                        <input type="range" id="term" min="3" max="24" value="12" 
-                            class="w-full h-2 bg-defi-darker rounded-lg appearance-none cursor-pointer">
-                        <div class="flex justify-between text-defi-muted text-sm mt-2">
-                            <span>3 months</span>
-                            <span>24 months</span>
+                    <!-- Selected Network Info -->
+                    <div id="network-info" class="mt-6 p-4 bg-defi-darker/60 rounded-lg border border-defi-accent/20 hidden">
+                        <h4 class="font-bold mb-2" id="selected-network-name"></h4>
+                        <p class="text-defi-muted text-sm" id="selected-network-desc"></p>
+                        <div class="mt-3 flex items-center text-sm">
+                            <i class="fas fa-gas-pump mr-2 text-defi-warning"></i>
+                            <span id="network-fee">Estimated fee: --</span>
                         </div>
-                    </div>
-
-                    <div class="mb-6">
-                        <label class="block text-defi-muted mb-2">Compounding</label>
-                        <select id="compound" class="w-full bg-defi-darker border border-defi-accent/20 rounded-lg py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-defi-accent">
-                            <option value="monthly">Monthly Compounding</option>
-                            <option value="none">Simple Interest</option>
-                        </select>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-4 mb-6">
-                        <button id="calculate-btn" class="bg-defi-accent hover:bg-defi-accent-hover text-defi-darker font-bold py-3 px-4 rounded-lg transition-colors">
-                            Calculate
-                        </button>
-                        <button id="reset-btn" class="bg-defi-darker hover:bg-defi-darker/80 border border-defi-accent/20 font-bold py-3 px-4 rounded-lg transition-colors">
-                            Reset
-                        </button>
-                    </div>
-
-                    <div id="result" class="bg-defi-darker/60 p-4 rounded-lg border border-defi-accent/20">
-                        <p class="text-defi-muted text-center">Enter your investment details to see projected returns</p>
                     </div>
                 </div>
 
-                <!-- Deposit Form -->
+                <!-- Withdraw Form -->
                 <div class="bg-defi-card p-6 rounded-xl border border-defi-accent/20">
-                    <h3 class="font-orbitron text-xl font-bold mb-6">Make a Deposit</h3>
-
-                    <div class="mb-6">
-                        <label class="block text-defi-muted mb-2">Selected Amount (USDT)</label>
-                        <input type="text" id="selected-amount" readonly 
-                            class="w-full bg-defi-darker border border-defi-accent/20 rounded-lg py-3 px-4 text-defi-muted">
-                    </div>
-
-                    <div class="mb-6">
-                        <label class="block text-defi-muted mb-2">Selected Lock Period</label>
-                        <input type="text" id="selected-term" readonly 
-                            class="w-full bg-defi-darker border border-defi-accent/20 rounded-lg py-3 px-4 text-defi-muted">
-                    </div>
-
-                    <div class="mb-6">
-                        <label class="block text-defi-muted mb-2">Deposit Wallet Address</label>
-                        <div class="flex">
-                            <input type="text" id="wallet-address" value="0x49e33f878da28b7915f4387c13ff84ee4f2ed898" readonly 
-                                class="flex-grow bg-defi-darker border border-defi-accent/20 rounded-l-lg py-3 px-4 text-defi-muted text-xs md:text-base truncate">
-                            <button id="copy-address" class="bg-defi-accent hover:bg-defi-accent-hover text-defi-darker font-bold py-3 px-4 rounded-r-lg transition-colors whitespace-nowrap">
-                                Copy
-                            </button>
+                    <h3 class="font-orbitron text-xl font-bold mb-6">Withdrawal Details</h3>
+                    
+                    <form id="withdraw-form">
+                        <!-- Available Balance -->
+                        <div class="mb-6">
+                            <label class="block text-defi-muted mb-2">Available Balance</label>
+                            <div class="bg-defi-darker p-4 rounded-lg border border-defi-accent/20">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-2xl font-bold text-defi-accent">1,255.000 USDT</span>
+                                    <button type="button" id="use-max" class="text-defi-accent hover:text-defi-accent-hover text-sm font-bold">
+                                        Use Max
+                                    </button>
+                                </div>
+                                <p class="text-defi-muted text-sm mt-2">
+                                    Minus $180 service fees = <span class="text-defi-accent">1,075.000 USDT</span> withdrawable
+                                </p>
+                            </div>
                         </div>
-                        <p class="text-defi-muted text-sm mt-2">Send only USDT (BEP-20) to this address</p>
-                    </div>
 
-                    <div class="mb-6">
-                        <label class="block text-defi-muted mb-2">Transaction Hash</label>
-                        <input type="text" id="tx-hash" placeholder="Enter your transaction hash" 
-                            class="w-full bg-defi-darker border border-defi-accent/20 rounded-lg py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-defi-accent">
-                    </div>
+                        <!-- Withdraw Amount -->
+                        <div class="mb-6">
+                            <label for="withdraw-amount" class="block text-defi-muted mb-2">Withdraw Amount (USDT)</label>
+                            <div class="relative">
+                                <input type="number" 
+                                       id="withdraw-amount" 
+                                       min="50" 
+                                       max="1075" 
+                                       step="0.001"
+                                       placeholder="Enter amount"
+                                       class="w-full bg-defi-darker border border-defi-accent/20 rounded-lg py-3 px-4 pr-12 text-white focus:outline-none focus:ring-2 focus:ring-defi-accent">
+                                <span class="absolute right-4 top-3 text-defi-muted">USDT</span>
+                            </div>
+                            <div class="flex justify-between text-defi-muted text-sm mt-2">
+                                <span>Minimum: 50 USDT</span>
+                                <span>Maximum: 1,075 USDT</span>
+                            </div>
+                        </div>
 
-                    <button id="submit-tx" class="w-full bg-defi-accent hover:bg-defi-accent-hover text-defi-darker font-bold py-3 px-4 rounded-lg transition-colors mb-4">
-                        Submit Transaction
-                    </button>
+                        <!-- Wallet Address -->
+                        <div class="mb-6">
+                            <label for="wallet-address" class="block text-defi-muted mb-2">Your Wallet Address</label>
+                            <input type="text" 
+                                   id="wallet-address" 
+                                   placeholder="Enter your wallet address"
+                                   class="w-full bg-defi-darker border border-defi-accent/20 rounded-lg py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-defi-accent">
+                        </div>
 
-                    <div id="success-message" class="hidden bg-defi-accent/20 border border-defi-accent text-defi-accent p-4 rounded-lg text-center">
-                        <i class="fas fa-check-circle mr-2"></i> Transaction confirmed! Your account has been credited.
+                        <!-- Network Selection (Read-only) -->
+                        <div class="mb-6">
+                            <label class="block text-defi-muted mb-2">Selected Network</label>
+                            <input type="text" 
+                                   id="selected-network" 
+                                   readonly
+                                   placeholder="Select a network first"
+                                   class="w-full bg-defi-darker border border-defi-accent/20 rounded-lg py-3 px-4 text-defi-muted cursor-not-allowed">
+                        </div>
+
+                        <!-- Summary -->
+                        <div class="mb-6 p-4 bg-defi-darker/60 rounded-lg border border-defi-accent/20">
+                            <h4 class="font-bold mb-3">Withdrawal Summary</h4>
+                            <div class="space-y-2">
+                                <div class="flex justify-between">
+                                    <span class="text-defi-muted">Withdrawal Amount:</span>
+                                    <span id="summary-amount">0.000 USDT</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-defi-muted">Service Fees:</span>
+                                    <span class="text-defi-warning">$180 (BNB)</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-defi-muted">Network Fee:</span>
+                                    <span id="summary-network-fee">--</span>
+                                </div>
+                                <div class="border-t border-defi-accent/20 pt-2 flex justify-between font-bold">
+                                    <span>Total Received:</span>
+                                    <span id="summary-total">0.000 USDT</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Terms Agreement -->
+                        <div class="mb-6">
+                            <label class="flex items-start">
+                                <input type="checkbox" 
+                                       id="agree-terms"
+                                       class="mt-1 mr-2 bg-defi-darker border-defi-accent text-defi-accent focus:ring-defi-accent rounded">
+                                <span class="text-defi-muted text-sm">
+                                    I agree to pay the $180 service fees in BNB to 
+                                    <code class="text-defi-warning">0x7BBC9dc43f32339209ffD131F4B5391241055335</code>
+                                    before withdrawal processing
+                                </span>
+                            </label>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" 
+                                id="submit-withdraw"
+                                class="w-full bg-defi-accent hover:bg-defi-accent-hover text-defi-darker font-bold py-3 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                                disabled>
+                            <i class="fas fa-paper-plane mr-2"></i>
+                            <span>Initiate Withdrawal</span>
+                        </button>
+                    </form>
+
+                    <!-- Success Message -->
+                    <div id="withdraw-success" class="hidden mt-4 bg-defi-accent/20 border border-defi-accent text-defi-accent p-4 rounded-lg text-center">
+                        <i class="fas fa-check-circle mr-2"></i>
+                        <span>Withdrawal initiated successfully! Processing may take 24-48 hours.</span>
                     </div>
                 </div>
             </div>
@@ -376,154 +539,6 @@
                 </div>
             </div>
         </section>
-
-        <!-- Testimonials Section -->
-        <section id="testimonials" class="mb-16">
-            <h2 class="font-orbitron text-3xl font-bold mb-8 text-center">What Our Farmers Say</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Testimonial 1 -->
-                <div class="bg-defi-card p-6 rounded-xl border border-defi-accent/20">
-                    <div class="flex items-center mb-4">
-                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="Alex Johnson" class="w-12 h-12 rounded-full mr-4">
-                        <div>
-                            <h4 class="font-bold">Alex Johnson</h4>
-                            <p class="text-defi-muted text-sm">Crypto Investor</p>
-                        </div>
-                    </div>
-                    <p class="text-defi-muted">"Earned over 120% APY on my 18-month lock. The platform is smooth and reliable."</p>
-                </div>
-
-                <!-- Testimonial 2 -->
-                <div class="bg-defi-card p-6 rounded-xl border border-defi-accent/20">
-                    <div class="flex items-center mb-4">
-                        <img src="images/chen.jpeg" alt="Sarah Chen" class="w-12 h-12 rounded-full mr-4">
-                        <div>
-                            <h4 class="font-bold">Sarah Chen</h4>
-                            <p class="text-defi-muted text-sm">DeFi Enthusiast</p>
-                        </div>
-                    </div>
-                    <p class="text-defi-muted">"Finally a yield platform that delivers what it promises. My investments have grown consistently."</p>
-                </div>
-
-                <!-- Testimonial 3 -->
-                <div class="bg-defi-card p-6 rounded-xl border border-defi-accent/20">
-                    <div class="flex items-center mb-4">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" alt="Marcus Rodriguez" class="w-12 h-12 rounded-full mr-4">
-                        <div>
-                            <h4 class="font-bold">Marcus Rodriguez</h4>
-                            <p class="text-defi-muted text-sm">Blockchain Developer</p>
-                        </div>
-                    </div>
-                    <p class="text-defi-muted">"The UI is intuitive and the returns are impressive. I've recommended this to all my crypto friends."</p>
-                </div>
-
-                <!-- Testimonial 4 -->
-                <div class="bg-defi-card p-6 rounded-xl border border-defi-accent/20">
-                    <div class="flex items-center mb-4">
-                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face" alt="Keisha Williams" class="w-12 h-12 rounded-full mr-4">
-                        <div>
-                            <h4 class="font-bold">Keisha Williams</h4>
-                            <p class="text-defi-muted text-sm">Financial Advisor</p>
-                        </div>
-                    </div>
-                    <p class="text-defi-muted">"As a financial professional, I appreciate the transparency and consistent returns. A game-changer in DeFi."</p>
-                </div>
-            </div>
-
-            <div class="text-center mt-8">
-                <p class="text-defi-muted">And 16 more happy investors growing their wealth with us</p>
-            </div>
-        </section>
-
-        <!-- Team Section -->
-        <section id="team" class="mb-16">
-            <h2 class="font-orbitron text-3xl font-bold mb-8 text-center">Our DeFi Experts</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Team Member 1 -->
-                <div class="bg-defi-card p-6 rounded-xl border border-defi-accent/20 text-center">
-                    <div class="w-32 h-32 mx-auto mb-4 bg-defi-darker rounded-full overflow-hidden border-2 border-defi-accent/30">
-                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&h=200&fit=crop&crop=face" alt="Dr. Elena Petrova" class="w-full h-full object-cover">
-                    </div>
-                    <h3 class="font-orbitron text-xl font-bold mb-2">Dr. Elena Petrova</h3>
-                    <p class="text-defi-accent mb-4">Chief Blockchain Architect</p>
-                    <p class="text-defi-muted mb-4">Former lead developer at a top-10 cryptocurrency project with 8+ years in blockchain development and smart contract auditing.</p>
-                    <div class="flex justify-center space-x-4 text-defi-accent">
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-github"></i></a>
-                    </div>
-                </div>
-
-                <!-- Team Member 2 -->
-                <div class="bg-defi-card p-6 rounded-xl border border-defi-accent/20 text-center">
-                    <div class="w-32 h-32 mx-auto mb-4 bg-defi-darker rounded-full overflow-hidden border-2 border-defi-accent/30">
-                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=face" alt="James O'Connell" class="w-full h-full object-cover">
-                    </div>
-                    <h3 class="font-orbitron text-xl font-bold mb-2">James O'Connell</h3>
-                    <p class="text-defi-accent mb-4">DeFi Strategy Lead</p>
-                    <p class="text-defi-muted mb-4">12 years in quantitative finance and algorithmic trading. Built yield optimization strategies for institutional crypto funds.</p>
-                    <div class="flex justify-center space-x-4 text-defi-accent">
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-medium"></i></a>
-                    </div>
-                </div>
-
-                <!-- Team Member 3 -->
-                <div class="bg-defi-card p-6 rounded-xl border border-defi-accent/20 text-center">
-                    <div class="w-32 h-32 mx-auto mb-4 bg-defi-darker rounded-full overflow-hidden border-2 border-defi-accent/30">
-                        <img src="https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=200&h=200&fit=crop&crop=face" alt="Sophie Reynolds" class="w-full h-full object-cover">
-                    </div>
-                    <h3 class="font-orbitron text-xl font-bold mb-2">Sophie Reynolds</h3>
-                    <p class="text-defi-accent mb-4">Head of Security</p>
-                    <p class="text-defi-muted mb-4">Cybersecurity expert specializing in blockchain protection. Previously secured over $2B in digital assets for exchanges and custodians.</p>
-                    <div class="flex justify-center space-x-4 text-defi-accent">
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-gitlab"></i></a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- FAQ Section -->
-        <section id="faq" class="mb-16">
-            <h2 class="font-orbitron text-3xl font-bold mb-8 text-center">Frequently Asked Questions</h2>
-            <div class="max-w-3xl mx-auto">
-                <!-- FAQ Item 1 -->
-                <div class="mb-4 border border-defi-accent/20 rounded-lg">
-                    <button class="faq-question w-full text-left p-4 bg-defi-card hover:bg-defi-card/80 rounded-lg transition-colors">
-                        <span class="font-bold">How are such high APY returns possible?</span>
-                        <i class="fas fa-chevron-down float-right"></i>
-                    </button>
-                    <div class="faq-answer p-4 bg-defi-darker/60 hidden">
-                        <p class="text-defi-muted">Our returns are generated through advanced DeFi strategies across multiple protocols including liquidity provision, lending, and yield optimization on established platforms. Returns scale with lock period to incentivize long-term staking.</p>
-                    </div>
-                </div>
-
-                <!-- FAQ Item 2 -->
-                <div class="mb-4 border border-defi-accent/20 rounded-lg">
-                    <button class="faq-question w-full text-left p-4 bg-defi-card hover:bg-defi-card/80 rounded-lg transition-colors">
-                        <span class="font-bold">Is there any risk to my investment?</span>
-                        <i class="fas fa-chevron-down float-right"></i>
-                    </button>
-                    <div class="faq-answer p-4 bg-defi-darker/60 hidden">
-                        <p class="text-defi-muted">All DeFi investments carry some risk including smart contract vulnerability and market volatility. We implement multiple security measures including regular audits and insurance funds to protect investor capital.</p>
-                    </div>
-                </div>
-
-                <!-- FAQ Item 3 -->
-                <div class="mb-4 border border-defi-accent/20 rounded-lg">
-                    <button class="faq-question w-full text-left p-4 bg-defi-card hover:bg-defi-card/80 rounded-lg transition-colors">
-                        <span class="font-bold">Can I withdraw my funds before the lock period ends?</span>
-                        <i class="fas fa-chevron-down float-right"></i>
-                    </button>
-                    <div class="faq-answer p-4 bg-defi-darker/60 hidden">
-                        <p class="text-defi-muted">Early withdrawal is not permitted as funds are deployed in strategies matching the selected lock period. This allows us to generate the highest possible returns for our farmers.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
     </main>
 
     <!-- Footer -->
@@ -544,120 +559,333 @@
 
     <!-- JavaScript -->
     <script>
-        // Mobile menu toggle
-        document.getElementById('mobile-menu-button').addEventListener('click', function() {
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Profile dropdown toggle
-        document.getElementById('profile-dropdown-button').addEventListener('click', function() {
-            const dropdown = document.getElementById('profile-dropdown');
-            dropdown.classList.toggle('hidden');
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(event) {
-            const dropdown = document.getElementById('profile-dropdown');
-            const button = document.getElementById('profile-dropdown-button');
-
-            if (!button.contains(event.target) && !dropdown.contains(event.target)) {
-                dropdown.classList.add('hidden');
+        // JSON Data
+        const appData = {
+            user: {
+                email: "alloysiousarinaitwe200@gmail.com",
+                investment: 570.000,
+                earnings: 685.000,
+                totalBalance: 1255.000,
+                activeInvestments: 1
+            },
+            
+            fees: {
+                daily: 2,
+                days: 90,
+                total: 180,
+                wallet: "0x7BBC9dc43f32339209ffD131F4B5391241055335"
+            },
+            
+            networks: {
+                solana: {
+                    name: "Solana",
+                    description: "Ultra-fast transactions with minimal fees. Recommended for USDT withdrawals.",
+                    fee: "~0.001 SOL",
+                    color: "#9945FF",
+                    icon: "fab fa-solana"
+                },
+                bnb: {
+                    name: "BNB Smart Chain",
+                    description: "EVM-compatible network with moderate fees. Supports BEP-20 tokens.",
+                    fee: "~0.001 BNB",
+                    color: "#F0B90B",
+                    icon: "fab fa-btc"
+                },
+                ethereum: {
+                    name: "Ethereum",
+                    description: "Most secure network but with higher gas fees. Supports ERC-20 tokens.",
+                    fee: "~0.01 ETH",
+                    color: "#627EEA",
+                    icon: "fab fa-ethereum"
+                }
+            },
+            
+            withdrawal: {
+                minAmount: 50,
+                maxAmount: 1075,
+                processingTime: "24-48 hours"
             }
+        };
+
+        // DOM Ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Dashboard
+            updateDashboard();
+            
+            // Initialize Mobile Menu
+            initMobileMenu();
+            
+            // Initialize Network Selection
+            initNetworkSelection();
+            
+            // Initialize Withdraw Form
+            initWithdrawForm();
+            
+            // Initialize Copy Buttons
+            initCopyButtons();
         });
 
-        // FAQ toggle functionality
-        document.querySelectorAll('.faq-question').forEach(button => {
-            button.addEventListener('click', () => {
-                const answer = button.nextElementSibling;
-                const icon = button.querySelector('i');
+        // Update Dashboard Values
+        function updateDashboard() {
+            document.getElementById('total-investment').textContent = 
+                appData.user.investment.toFixed(3) + ' USDT';
+            document.getElementById('active-investments').textContent = 
+                appData.user.activeInvestments;
+            document.getElementById('total-earnings').textContent = 
+                appData.user.earnings.toFixed(3) + ' USDT';
+            document.getElementById('total-balance').textContent = 
+                appData.user.totalBalance.toFixed(3) + ' USDT';
+            document.getElementById('balance-breakdown').textContent = 
+                `${appData.user.investment.toFixed(3)} + ${appData.user.earnings.toFixed(3)}`;
+            
+            // Update Fee Wallet
+            document.getElementById('fee-wallet-address').textContent = appData.fees.wallet;
+        }
 
-                answer.classList.toggle('hidden');
-                icon.classList.toggle('fa-chevron-down');
-                icon.classList.toggle('fa-chevron-up');
+        // Mobile Menu Toggle
+        function initMobileMenu() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                    const icon = mobileMenuButton.querySelector('i');
+                    if (icon.classList.contains('fa-bars')) {
+                        icon.classList.replace('fa-bars', 'fa-times');
+                    } else {
+                        icon.classList.replace('fa-times', 'fa-bars');
+                    }
+                });
+                
+                // Close menu when clicking on links
+                const mobileLinks = mobileMenu.querySelectorAll('a');
+                mobileLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                        mobileMenuButton.querySelector('i').classList.replace('fa-times', 'fa-bars');
+                    });
+                });
+            }
+        }
+
+        // Network Selection
+        function initNetworkSelection() {
+            const networkOptions = document.querySelectorAll('.network-option');
+            const networkInfo = document.getElementById('network-info');
+            const selectedNetworkInput = document.getElementById('selected-network');
+            const networkFeeElement = document.getElementById('network-fee');
+            const summaryNetworkFee = document.getElementById('summary-network-fee');
+            
+            let selectedNetwork = null;
+            
+            networkOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const network = this.dataset.network;
+                    selectNetwork(network);
+                });
+            });
+            
+            function selectNetwork(network) {
+                // Reset all options
+                networkOptions.forEach(opt => {
+                    opt.classList.remove('network-selected');
+                    const checkIcon = opt.querySelector('.fa-check-circle');
+                    if (checkIcon) checkIcon.classList.add('hidden');
+                });
+                
+                // Select new network
+                const selectedOption = document.querySelector(`[data-network="${network}"]`);
+                selectedOption.classList.add('network-selected');
+                const checkIcon = selectedOption.querySelector('.fa-check-circle');
+                if (checkIcon) checkIcon.classList.remove('hidden');
+                
+                // Update network info
+                const networkData = appData.networks[network];
+                document.getElementById('selected-network-name').textContent = networkData.name;
+                document.getElementById('selected-network-desc').textContent = networkData.description;
+                networkFeeElement.textContent = `Estimated fee: ${networkData.fee}`;
+                
+                // Update form
+                selectedNetworkInput.value = networkData.name;
+                summaryNetworkFee.textContent = networkData.fee;
+                
+                // Show network info
+                networkInfo.classList.remove('hidden');
+                
+                selectedNetwork = network;
+                
+                // Update withdraw button state
+                updateWithdrawButton();
+            }
+            
+            // Auto-select first network
+            selectNetwork('solana');
+        }
+
+        // Withdraw Form
+        function initWithdrawForm() {
+            const withdrawForm = document.getElementById('withdraw-form');
+            const withdrawAmountInput = document.getElementById('withdraw-amount');
+            const useMaxButton = document.getElementById('use-max');
+            const summaryAmount = document.getElementById('summary-amount');
+            const summaryTotal = document.getElementById('summary-total');
+            const submitButton = document.getElementById('submit-withdraw');
+            const agreeTerms = document.getElementById('agree-terms');
+            
+            // Use Max button
+            useMaxButton.addEventListener('click', function() {
+                withdrawAmountInput.value = appData.withdrawal.maxAmount;
+                updateSummary();
+                updateWithdrawButton();
+            });
+            
+            // Update summary on input change
+            withdrawAmountInput.addEventListener('input', function() {
+                updateSummary();
+                updateWithdrawButton();
+            });
+            
+            // Terms agreement
+            agreeTerms.addEventListener('change', function() {
+                updateWithdrawButton();
+            });
+            
+            // Form submission
+            withdrawForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const amount = parseFloat(withdrawAmountInput.value);
+                const walletAddress = document.getElementById('wallet-address').value.trim();
+                const selectedNetwork = document.getElementById('selected-network').value;
+                
+                if (!validateWithdrawal(amount, walletAddress, selectedNetwork)) {
+                    return;
+                }
+                
+                // Show success message
+                const successMessage = document.getElementById('withdraw-success');
+                successMessage.classList.remove('hidden');
+                
+                // Reset form after 5 seconds
+                setTimeout(() => {
+                    withdrawForm.reset();
+                    successMessage.classList.add('hidden');
+                    document.getElementById('wallet-address').value = '';
+                    updateWithdrawButton();
+                    updateSummary();
+                }, 5000);
+            });
+            
+            function updateSummary() {
+                const amount = parseFloat(withdrawAmountInput.value) || 0;
+                summaryAmount.textContent = amount.toFixed(3) + ' USDT';
+                summaryTotal.textContent = amount.toFixed(3) + ' USDT';
+            }
+            
+            function updateWithdrawButton() {
+                const amount = parseFloat(withdrawAmountInput.value) || 0;
+                const walletAddress = document.getElementById('wallet-address').value.trim();
+                const selectedNetwork = document.getElementById('selected-network').value;
+                const isTermsAgreed = agreeTerms.checked;
+                
+                const isValid = amount >= appData.withdrawal.minAmount && 
+                               amount <= appData.withdrawal.maxAmount &&
+                               walletAddress.length > 0 &&
+                               selectedNetwork &&
+                               isTermsAgreed;
+                
+                submitButton.disabled = !isValid;
+            }
+            
+            function validateWithdrawal(amount, walletAddress, selectedNetwork) {
+                if (amount < appData.withdrawal.minAmount) {
+                    alert(`Minimum withdrawal amount is ${appData.withdrawal.minAmount} USDT`);
+                    return false;
+                }
+                
+                if (amount > appData.withdrawal.maxAmount) {
+                    alert(`Maximum withdrawal amount is ${appData.withdrawal.maxAmount} USDT`);
+                    return false;
+                }
+                
+                if (!walletAddress) {
+                    alert('Please enter your wallet address');
+                    return false;
+                }
+                
+                if (!selectedNetwork) {
+                    alert('Please select a network');
+                    return false;
+                }
+                
+                if (!document.getElementById('agree-terms').checked) {
+                    alert('You must agree to the terms and service fees');
+                    return false;
+                }
+                
+                return true;
+            }
+            
+            // Also validate on wallet address change
+            document.getElementById('wallet-address').addEventListener('input', updateWithdrawButton);
+            
+            // Initial update
+            updateSummary();
+            updateWithdrawButton();
+        }
+
+        // Copy Buttons
+        function initCopyButtons() {
+            // Copy fee wallet address
+            const copyFeeWalletButton = document.getElementById('copy-fee-wallet');
+            if (copyFeeWalletButton) {
+                copyFeeWalletButton.addEventListener('click', function() {
+                    const walletAddress = appData.fees.wallet;
+                    copyToClipboard(walletAddress, this);
+                });
+            }
+        }
+        
+        function copyToClipboard(text, button) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                button.classList.add('bg-green-500');
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove('bg-green-500');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                alert('Failed to copy to clipboard');
+            });
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
             });
         });
 
-        // Investment calculator functionality
-        document.getElementById('term').addEventListener('input', function() {
-            document.getElementById('termValue').textContent = this.value;
-        });
-
-        document.getElementById('calculate-btn').addEventListener('click', function() {
-            const amount = parseFloat(document.getElementById('amount').value);
-            const term = parseInt(document.getElementById('term').value);
-            const compound = document.getElementById('compound').value;
-
-            // Simple calculation for demonstration
-            const apy = 30 + (term - 3) * 7.4; // APY increases with term
-            let total;
-
-            if (compound === 'monthly') {
-                const monthlyRate = apy / 12 / 100;
-                total = amount * Math.pow(1 + monthlyRate, term);
-            } else {
-                total = amount * (1 + (apy / 100) * (term / 12));
-            }
-
-            const earnings = total - amount;
-
-            document.getElementById('result').innerHTML = `
-                <div class="text-center">
-                    <p class="text-defi-muted mb-2">Projected Returns for ${term} months</p>
-                    <p class="text-2xl font-bold text-defi-accent mb-2">${total.toFixed(2)} USDT</p>
-                    <p class="text-defi-muted">Total Earnings: <span class="text-defi-accent">${earnings.toFixed(2)} USDT</span></p>
-                    <p class="text-defi-muted text-sm mt-2">APY: ${apy.toFixed(1)}%</p>
-                </div>
-            `;
-
-            // Update deposit form
-            document.getElementById('selected-amount').value = amount + ' USDT';
-            document.getElementById('selected-term').value = term + ' months';
-        });
-
-        document.getElementById('reset-btn').addEventListener('click', function() {
-            document.getElementById('amount').value = 5000;
-            document.getElementById('term').value = 12;
-            document.getElementById('termValue').textContent = 12;
-            document.getElementById('compound').value = 'monthly';
-            document.getElementById('result').innerHTML = '<p class="text-defi-muted text-center">Enter your investment details to see projected returns</p>';
-            document.getElementById('selected-amount').value = '';
-            document.getElementById('selected-term').value = '';
-        });
-
-        // Copy wallet address
-        document.getElementById('copy-address').addEventListener('click', function() {
-            const address = document.getElementById('wallet-address');
-            address.select();
-            document.execCommand('copy');
-
-            const originalText = this.textContent;
-            this.textContent = 'Copied!';
-            this.classList.add('bg-green-500');
-
-            setTimeout(() => {
-                this.textContent = originalText;
-                this.classList.remove('bg-green-500');
-            }, 2000);
-        });
-
-        // Submit transaction
-        document.getElementById('submit-tx').addEventListener('click', function() {
-            const txHash = document.getElementById('tx-hash').value;
-
-            if (txHash.trim() === '') {
-                alert('Please enter a transaction hash');
-                return;
-            }
-
-            // Show success message
-            document.getElementById('success-message').classList.remove('hidden');
-
-            // Reset form after 3 seconds
-            setTimeout(() => {
-                document.getElementById('tx-hash').value = '';
-                document.getElementById('success-message').classList.add('hidden');
-            }, 3000);
+        // Update summary when amount changes
+        document.getElementById('withdraw-amount').addEventListener('input', function() {
+            const amount = parseFloat(this.value) || 0;
+            document.getElementById('summary-amount').textContent = amount.toFixed(3) + ' USDT';
+            document.getElementById('summary-total').textContent = amount.toFixed(3) + ' USDT';
         });
     </script>
 </body>
